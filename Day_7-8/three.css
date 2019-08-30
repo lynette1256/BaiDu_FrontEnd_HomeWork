@@ -1,0 +1,28 @@
+.box-4 {
+	border: 1px dashed black;
+	height: 100px;	
+    position: relative;
+    padding: 0 200px;
+}
+.main-4 {
+	height: 100px;
+	width: 100%;
+	color: black;
+	background-color: #aaa; 
+	float: left;
+    
+}
+.left-4 {
+	background-color: red;
+	height: 100px;
+	width: 200px;
+    position: absolute;
+    left: 0;
+}
+.right-4 {
+	background-color: yellow;
+	height: 100px;
+	width: 200px;
+	position: absolute;
+	right: 0;
+}
