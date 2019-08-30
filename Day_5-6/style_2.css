@@ -1,0 +1,10 @@
+body {
+	height: 100%;
+}
+.resume-box {
+	background-color: dodgerblue;
+	color: white;
+	width: 200px;
+	height: 700px;
+	float: left;
+}
