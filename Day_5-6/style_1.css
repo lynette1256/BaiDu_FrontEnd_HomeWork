@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 body {
 	}
 
 
 span + span {
 	margin-left:40px;
+=======
+body {
+	}
+
+
+span + span {
+	margin-left:40px;
+>>>>>>> 86e28e26306bf2bc5a5bf1c09ed13bb05411beee
 }
