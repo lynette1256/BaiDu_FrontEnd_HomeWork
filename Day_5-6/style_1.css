@@ -1,0 +1,7 @@
+body {
+	}
+
+
+span + span {
+	margin-left:40px;
+}

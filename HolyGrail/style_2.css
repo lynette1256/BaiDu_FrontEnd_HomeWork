@@ -1,0 +1,31 @@
+.container {
+  padding: 0 200px;
+  overflow: hidden;
+  zoom: 1;
+  position: relative; /*相对定位*/
+}
+.container .left {
+  width: 200px;
+  height: 300px;
+
+  background: #ff8d66;
+  position: absolute; /*绝对定位*/
+  left: 0;
+
+}
+
+.container .right{
+  width: 200px;
+  height: 300px;
+  background: #7ffe8b;
+  position: absolute; /*绝对定位*/
+  right: 0;
+  
+}
+.container .main{
+  width: 100%;
+  height: 300px;
+  background-color: #fcf187;
+  position: relative; /*相对定位*/
+  float: left;
+}

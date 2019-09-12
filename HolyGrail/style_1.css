@@ -1,0 +1,34 @@
+.container {
+  padding: 0 200px;
+  overflow: hidden;
+  zoom: 1;
+  position: relative;
+}
+.container .left {
+  width: 200px;
+  height: 300px;
+  background: #ff8d66;
+  float: left;
+	 margin-left: -100%;
+  position: relative;
+  left: -200px;
+
+}
+
+.container .right{
+  width: 200px;
+  height: 300px;
+  background: #7ffe8b;
+  float: left;
+  margin-left: -200px;
+  position: relative;
+  left: 200px;
+  margin-left: -200px;
+  
+}
+.container .main{
+  width: 100%;
+  height: 300px;
+  background-color: #fcf187;
+  float: left;
+}
