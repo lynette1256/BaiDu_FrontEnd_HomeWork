@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>practice_4</title>
+</head>
+<body>
+	<button id="pa" onclick="pa_function()">查看1-100中的PA数</button>
+	<p id="result" ></p>
+	<script type="text/javascript">
+		function pa_function() {
+			for (var i = 1; i <= 100; i ++) {
+				if (i % 3 == 0) {
+					document.getElementById("result").innerHTML += "PA" + " ";
+				}
+				else {
+					document.getElementById("result").innerHTML += i + " ";
+				}
+			}
+		}
+	</script>
+</body>
+</html>
