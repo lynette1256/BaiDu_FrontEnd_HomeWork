@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>eventAgent</title>
+</head>
+<body>
+	<input type="button" name="" id="btn" value="添加" />
+	<input type="button" name="" id="btnn" value="删除"/>
+    <ul id="ul1">
+        <li>111</li>
+        <li>222</li>
+        <li>333</li>
+        <li>444</li>
+    </ul>
+
+    <script type="text/javascript">
+    	window.onload = function()  {
+    		var obtn = document.getElementById('btn');
+    		var obtnn = document.getElementById('btnn');
+    		var oul = document.getElementById('ul1');
+    		var oli = document.getElementsByTagName('li');
+    		var num = 4;
+
+    		function mHover() {
+    			//鼠标移入移出，li背景颜色产生变化
+	    		for(var i = 0; i < oli.length; i++) {
+	    			oli[i].onmouseover = function() {
+	    				this.style.background = 'red';
+	    			};
+	    			oli[i].onmouseout = function() {
+	    				this.style.background = 'white';
+	    			};
+    			};
+    		};
+    		mHover();
+
+    		// 添加li节点
+    		obtn.onclick = function() {
+    			num++;
+    			var oli = document.createElement('li');
+    			oli.innerHTML = 111 * num;
+    			oul.appendChild(oli);
+    			mHover();
+    		};
+
+
+    	}
+    </script>
+
+</body>
+</html>
