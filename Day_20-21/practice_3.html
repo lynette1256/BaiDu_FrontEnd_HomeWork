@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>practice_3</title>
+</head>
+<body>
+	<div id="fade-obj" style="width:300px;height:300px;background:#000">
+		
+	</div>
+	<p>setTimeout: <button id="fade-btn">淡出</button></p>
+	<p>setInterval: <button id="fade-btn2">淡出</button></p>
+
+	<script type="text/javascript">
+		document.getElementById('fade-btn').onclick = function (e) {
+			e.target.disabled = true;
+			d = document.getElementById('fade-obj');
+			btn = e.target;
+			if(d.style.opacity == "0") /*如果透明，则淡入*/
+			{
+				fadeIn(d, btn);
+			} else {
+				fadeOut(d, btn);
+			}
+		}
+		function fadeOut(d, btn) {
+			if (d.style.opacity == '') /*初始状态，没有设置透明度*/
+			{
+				d.style.opacity = 1;
+			}
+			if (d.style.opacity != 0) {
+				d.style.opacity = parseFloat(d.style.opacity) - 0.01;
+				console.log(d.style.opacity);
+				setTimeout('fadeOut(d, btn)', 10);
+			} else {
+				btn.innerText = '淡入';
+				btn.disabled = false;
+			}
+
+		}
+
+		function fadeIn(d, btn) {
+			if (d.style.opacity != 1) {
+				d.style.opacity = parseFloat(d.style.opacity) + 0.01;
+				setTimeout('fadeIn(d, btn)', 10);
+			}
+			else {
+				btn.innerText = "淡出";
+				btn.disabled = false;
+			}
+		}
+
+		var interval;
+		document.getElementById('fade-btn2').onclick = function(e) {
+			e.target.disabled = true; 
+			d = document.getElementById('fade-obj');
+			btn = e.target;
+			if(d.style.opacity == "0") 
+			{
+				interval = setInterval(function() {
+				d = document.getElementById('fade-obj');
+				btn = document.getElementById('fade-btn2');
+				if (d.style.opacity != 1)
+				{
+					d.style.opacity = parseFloat(d.style.opacity) + 0.01;
+				}
+				else {
+					btn.innerText = "淡出";
+					btn.disabled = false;
+					clearInterval(interval);
+				}
+				}, 10);
+			}
+			else {
+				interval = setInterval(function () {
+					d = document.getElementById('fade-obj');
+					btn = document.getElementById('fade-btn2');
+					if (d.style.opacity == '') {
+						d.style.opacity = 1;
+					}
+					if (d.style.opacity != 0) {
+						d.style.opacity = parseFloat(d.style.opacity) - 0.01;
+					}
+					else {
+						btn.innerText = '淡入';
+						btn.disabled = false;
+						clearInterval(interval);
+					}
+				}, 10)
+			}
+		}
+	</script>
+
+</body>
+</html>

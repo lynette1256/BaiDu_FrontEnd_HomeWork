@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>sprites_微笑动画</title>
+	<style type="text/css">
+		#smile {
+			width: 480px;
+			height: 480px;
+			margin: 0 auto;
+			background-image: url(http://ife.baidu.com/2016/static/img/erik_ce204002.jpg);
+			background-repeat: no-repeat;	
+			background-position: 0 0;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="smile" style="background-position: 0 0;"></div>
+
+	<script type="text/javascript">
+		var div = document.getElementById('smile');
+		var moveDown = true;
+		function play () {
+			var current = parseInt(div.style.backgroundPositionY);
+			if(current == 0) {
+				moveDown = true;
+			}
+			else if (current <= -(16*480)) {
+				moveDown = false;	
+			}
+			if(moveDown) 
+			{
+				div.style.backgroundPositionY = (current - 480) + 'px';
+			}
+			else {
+				div.style.backgroundPositionY = (current + 480) + 'px';
+			}
+			setTimeout('play()', 50);
+		}
+		window.onload =  play;
+
+	</script>
+
+</body>
+</html>
