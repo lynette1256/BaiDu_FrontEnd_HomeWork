@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>数字练习</title>
+</head>
+<body>
+	<div>
+
+		<label>Number A:<input id="radio-a" type="radio" name="math-obj" value="a"></label><input type="text" name="num-a">
+		<label>Number B:<input id="radio-b" type="radio" name="math-obj" value="b"></label><input type="text" name="num-b">
+	</div>
+	<div>
+	    <button id="isNum">判断当前选中的输入框输入内容是否为数字</button>
+	    <button id="abDecimal">把 A 四舍五入为 B 个小数位数的数字</button>
+	    <button id="absoluteValue">当前选中数字的绝对值</button>
+	    <button id="roundUp">对当前选中的数字进行上舍入</button>
+	    <button id="roundDown">对当前选中的数字进行下舍入</button>
+	    <button id="round">把当前选中的数字四舍五入为最接近的整数</button>
+	    <button id="max">返回 A 和 B 中的最高值</button>
+	    <button id="min">返回 A 和 B 中的最低值</button>        
+	</div>
+	<p id="result"></p>
+	<script type="text/javascript">
+		let result = document.getElementById('result');
+		let radioA = document.getElementById('radio-a');
+		let radioB = document.getElementById('radio-b');
+		let numA = document.getElementsByName('num-a');
+		let numB = document.getElementsByName('num-b');
+		let btnIsNum = document.getElementById('isNum');
+		let btnAbDecimal = document.getElementById('abDecimal');
+		let btnAbsoluteValue = document.getElementById('absoluteValue');
+		let btnRoundUp = document.getElementById('roundUp');
+		let btnRoundDown = document.getElementById('roundDown');
+		let btnRound = document.getElementById('round');
+		let btnMax = document.getElementById('max');
+		let btnMin = document.getElementById('min');
+
+		btnIsNum.onclick = function() {
+			if (radioA.checked) {
+				if (isNumTest(numA[0].value))
+					result.innerHTML = "is number";
+				else
+					result.innerHTML = "wrong inpit";
+			}
+			else if (radioB.checked)  {
+				if (isNumTest(numB[0].value))
+					result.innerHTML = "is number";
+				else
+					result.innerHTML = "wrong input";
+			}
+		}
+
+		function isNumTest(value) {
+			if(/^\-?\d+(\.\d+)?$/.test(value))
+				return true;
+			else
+				return false;
+		}
+
+		btnAbDecimal.onclick = function() {
+			if (isNumTest(numA[0].value) && isNumTest(numB[0].value)) {
+				var temp = Math.round(numB[0].value);
+				temp = Math.abs(temp);
+				console.log(temp);
+			
+				var s = numA[0].value.toString();
+				var rs = s.indexOf('.');
+				if (rs < 0) { //判断数字A中是否有小数点，如果没有在后面添上
+					s += '.';
+				}
+				for(var i = s.length - s.indexOf('.'); i <= temp; i ++) {
+					s += '0';
+				}
+				result.innerHTML = s;
+			}
+			else {
+				console.log("Wrong input. Try again!");
+			}
+			
+		}
+
+		btnAbsoluteValue.onclick = function() {
+			if(radioA.checked) {
+				absoluteValueTrans(numA[0].value);
+			}
+			else if(radioB.checked) {
+				absoluteValueTrans(numB[0].value);
+			}
+		}
+		function absoluteValueTrans(value) {
+			if(isNumTest(value)) {
+				result.innerHTML = Math.abs(value);
+			}
+			else 
+				console.log('Wrong input. Try again!');
+		}
+
+		btnRoundUp.onclick = function() {
+			if(radioA.checked) {
+				roundUpTrans(numA[0].value);
+			}
+			else if(radioB.checked) {
+				roundUpTrans(numB[0].value);
+			}
+		}
+
+		function roundUpTrans(value) {
+			if(isNumTest(value)) {
+				result.innerHTML = Math.ceil(value);
+			}
+			else 
+				console.log('Wrong input. Try again!');
+		}
+
+		btnRoundDown.onclick = function() {
+			if(radioA.checked) {
+				roundDownTrans(numA[0].value);
+			}
+			else if(radioB.checked) {
+				roundDownTrans(numB[0].value);
+			}
+		}
+
+		function roundDownTrans(value) {
+			if(isNumTest(value)) {
+				result.innerHTML = Math.floor(value);
+			}
+			else 
+				console.log('Wrong input. Try again!');
+		}
+
+
+		btnRound.onclick = function() {
+			if(radioA.checked) {
+				roundTrans(numA[0].value);
+			}
+			else if(radioB.checked) {
+				roundTrans(numB[0].value);
+			}
+		}
+
+		function roundTrans(value) {
+			if(isNumTest(value)) {
+				result.innerHTML = Math.round(value);
+			}
+			else 
+				console.log('Wrong input. Try again!');
+		}
+
+
+		btnMax.onclick = function() {
+			if(isNumTest(numA[0].value)  &&  isNumTest(numB[0].value))
+				result.innerHTML = Math.max(numA[0].value, numB[0].value);
+			else 
+				console.log('Wrong input. Try again!');
+		}
+
+
+		btnMin.onclick =function() {
+			if(isNumTest(numA[0].value)  &&  isNumTest(numB[0].value))
+				result.innerHTML = Math.min(numA[0].value, numB[0].value);
+			else 
+				console.log('Wrong input. Try again!');
+		}
+
+	</script>
+</body>
+</html>
