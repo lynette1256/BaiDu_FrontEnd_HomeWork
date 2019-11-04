@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Object练习</title>
+</head>
+<body>
+	<h2>Object练习</h2>
+	<div>
+		<label>输入要查找的姓名:</label><input type="text" name="root_name" id="root_name">
+		<label>输入要查找的ID:</label><input type="text" name="root_id" id="root_id">
+	</div>
+	<div>
+		<button>查找id</button>
+		<button>查找姓名</button>
+		<button>前序遍历</button>
+		<button>中序遍历</button>
+		<button>后序遍历</button>
+	</div>
+	<p id="result"></p>
+	<script type="text/javascript">
+		let name = document.getElementById("root_name");
+		let id = document.getElementById("root_id");
+		let btn = document.getElementsByTagName("button");
+		let result = document.getElementById("result");
+		//console.log(btn[0].innerHTML);
+
+		btn[0].onclick = function() {
+			console.log(name.value);
+			//console.log(name[0].value);
+			console.log(id.value);
+		}
+		//console.log(name);
+		//console.log(name.value);
+		//console.log(id.value);
+		var tree = {
+		    "id": 0,
+		    "name": "root",
+		    "left": {
+		        "id": 1,
+		        "name": "Simon",
+		        "left": {
+		            "id": 3,
+		            "name": "Carl",
+		            "left": {
+		                "id": 7,
+		                "name": "Lee",
+		                "left": {
+		                    "id": 11,
+		                    "name": "Fate"
+		                }
+		            },
+		            "right": {
+		                "id": 8,
+		                "name": "Annie",
+		                "left": {
+		                    "id": 12,
+		                    "name": "Saber"
+		                }
+		            }
+		        },
+		        "right": {
+		            "id": 4,
+		            "name": "Tony",
+		            "left": {
+		                "id": 9,
+		                "name": "Candy"
+		            }
+		        }
+		    },
+		    "right": {
+		        "id": 2,
+		        "name": "right",
+		        "left": {
+		            "id": 5,
+		            "name": "Carl",
+		        },
+		        "right": {
+		            "id": 6,
+		            "name": "Carl",
+		            "right": {
+		                "id": 10,
+		                "name": "Kai"
+		            }        
+		        }
+		    }
+		}
+
+		// 假设id和name均不会重复，根据输入name找到对应的id
+		function findIdByName(name, root) {
+			if (root.name === name)
+				return root.id;
+			if ('left' in root) {
+				if ('left' in root.left || 'right' in root.left) {
+					var id = findIdByName(name, root.left);
+					if(id) {
+						return id;
+					}
+				}
+				else {
+					if (name === root.left.name) {
+						return root.left.id;
+					}
+				}
+			}
+			if ('right' in root) {
+				if ('left' in root.right || 'right' in root.right) {
+					var id = findIdByName(name, root.right);
+					if(id) {
+						return id;
+					}
+				else {
+					if (name === root.right.name) {
+						return root.right.id;
+					}
+				}
+			}
+		}
+		}
+		
+		btn[0].onclick = function() {
+			console.log(findIdByName(name.value, tree));
+		}
+		
+		// 假设id和name均不会重复，根据输入id找到对应的name
+		function findNameById(id, root) {
+			if(id == root.id) {
+				return root.name;
+			}
+			if ('left' in root) {
+				if ('left' in root.left || 'right' in root.left) {
+					var name = findNameById(id, root.left);
+					if(name) {
+						return name;
+					}
+				} 
+				else {
+					if (id == root.left.id) {
+						return root.left.name;
+					}
+				}
+			}
+			if ('right' in root) {
+				if('left' in root.right || 'right' in root.right) {
+					var name = findNameById(id, root.right);
+					if(name) {
+						return name;
+					}
+				}
+				else {
+					if (id == root.right.id) {
+						return root.right.name;
+					}
+				}
+			} 
+		}
+		btn[1].onclick = function() {
+			console.log(id.value);
+			console.log(findNameById(id.value, tree));
+		}
+
+		// 把这个对象中所有的名字以“前序遍历”的方式全部输出到console中
+		var arr = new Array();
+		function getListWithDLR(root) {
+			arr.push(root.name);
+			//console.log(root.name);
+			if ('left' in root) {
+				if ('left' in root.left || 'right' in root.left) {
+					getListWithDLR(root.left);
+				}
+				else {
+					//console.log(root.left.name);
+					arr.push(root.left.name);
+				}
+			}
+			if ('right' in root) {
+				if ('left' in root.right || 'right' in root.right) {
+					getListWithDLR(root.right);
+				}
+				else {
+					//console.log(root.right.name);
+					arr.push(root.right.name);
+				}
+			}
+			return arr;
+		}
+		btn[2].onclick = function() {
+			arr.length = 0;
+			console.log(getListWithDLR(tree));
+		}
+		// 把这个对象中所有的名字以“中序遍历”的方式全部输出到console中
+		function getListWithLDR(root) {
+			if ('left' in root) {
+				if ('left' in root.left || 'right' in root.left) {
+					getListWithLDR(root.left);
+				}
+				else {
+					//console.log(root.left.name);
+					arr.push(root.left.name);
+				}
+			}
+			arr.push(root.name);
+			if ('right' in root) {
+				if ('left' in root.right || 'right' in root.right) {
+					getListWithLDR(root.right);
+				}
+				else {
+					//console.log(root.right.name);
+					arr.push(root.right.name);
+				}
+			}
+			return arr;
+		}
+		btn[3].onclick = function() {
+			arr.length = 0;
+			console.log(getListWithLDR(tree));
+		}
+
+		// 把这个对象中所有的名字以“后序遍历”的方式全部输出到console中
+		function getListWithLRD(root) {
+			if ('left' in root) {
+				if ('left' in root.left || 'right' in root.left) {
+					getListWithLRD(root.left);
+				}
+				else {
+					//console.log(root.left.name);
+					arr.push(root.left.name);
+				}
+			}
+			
+			if ('right' in root) {
+				if ('left' in root.right || 'right' in root.right) {
+					getListWithLRD(root.right);
+				}
+				else {
+					//console.log(root.right.name);
+					arr.push(root.right.name);
+				}
+			}
+			arr.push(root.name);
+			return arr;
+		}
+		btn[4].onclick = function() {
+			arr.length = 0;
+			console.log(getListWithLRD(tree));
+		}
+
+	</script>
+</body>
+</html>
