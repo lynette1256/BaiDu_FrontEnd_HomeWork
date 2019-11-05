@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>sort练习</title>
+</head>
+<body>
+	<h3>排序练习</h3>
+	<h4>查看控制台</h4>
+	<script type="text/javascript">
+		var arr = [43, 54, 4, -4, 84, 100, 58, 27, 140];
+		function sortNumber(a, b) {
+			return a - b;
+		}
+		console.log(arr.sort(sortNumber));
+
+		var arr = ['apple', 'dog', 'cat', 'car', 'zoo', 'orange', 'airplane'];
+		console.log(arr.sort());
+
+		var arr = [[10, 14], [16, 60], [7, 44], [26, 35], [22, 63]];
+		function sortArray(temp1, temp2) {
+			return temp1[1] - temp2[1];
+		}
+		console.log(arr.sort(sortArray));
+		var arr = [
+			{
+		        id: 1,
+		        name: 'candy',
+		        value: 40
+		    }, {
+		        id: 2,
+		        name: 'Simon',
+		        value: 50
+		    }, {
+		        id: 3,
+		        name: 'Tony',
+		        value: 45
+		    }, {
+		        id: 4,
+		        name: 'Annie',
+		        value: 60
+		    }
+		];
+
+		function compare(property) {
+			return function(a, b) {
+				var value1 = a[property];
+				var value2 = b[property];
+				return value1 - value2;
+			}
+		}
+		console.log(arr.sort(compare("value")));
+	</script>
+</body>
+</html>
