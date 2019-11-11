@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>date对象练习</title>
+</head>
+<body>
+	<h3>显示当前时间</h3>
+	<p id="result"></p>
+	<p id="result2"></p>
+	<script type="text/javascript">
+		var result = document.getElementById("result");
+		var result2 = document.getElementById("result2");
+		function addZero(number) { //补零函数
+			if (number < 10) {
+				number = "0" + number;
+			}
+			return number;
+		}
+
+		function whatDay(day) { //星期函数
+			return day = "天一二三四五六".charAt(day) + " ";
+		}
+
+		//function setStyle() {
+		//格式函数
+		function whatDayIs(day) {
+			var dayIs = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+			return day = dayIs[day];
+		}
+
+		function setStyle(year, month, date, day, hours, minutes, seconds) {
+			month = addZero(month);
+			date = addZero(date);
+			day = whatDay(day);
+			hours = addZero(hours);
+			minutes = addZero(minutes);
+			seconds = addZero(seconds);
+			return myTime = year + "年" + month + "月" + date + "日"+ "星期" + day + hours + ":" + minutes + ":" + seconds;
+		}
+
+		function setAnotherSyle(year, month, date, day, hours, minutes, seconds) {
+			month = addZero(month);
+			date = addZero(date);
+			day = whatDayIs(day);
+			minutes = addZero(minutes);
+			seconds = addZero(seconds);
+			if (hours > 12) {
+				hours = hours - 12;
+				var noon = "PM";
+			} else {
+				var noon = "AM";
+			}
+			hours = addZero(hours);
+			return myTime = year + "-" + month + "-" + date + " "+ day + " "+ hours + ":" + minutes + ":" + seconds + noon;
+		}
+
+		function showTime() {
+			var myTime = new Date();
+			console.log(myTime);
+			var year = myTime.getFullYear();
+			var month = myTime.getMonth() + 1;
+			var date = myTime.getDate();
+			var day = myTime.getDay();
+			var hours = myTime.getHours();
+			var minutes = myTime.getMinutes();
+			var seconds = myTime.getSeconds();
+			myTime = setStyle(year, month, date, day, hours, minutes, seconds);
+			myTime2 = setAnotherSyle(year, month, date, day, hours, minutes, seconds);
+			//console.log(myTime);
+			result.innerHTML = myTime;
+			result2.innerHTML = myTime2;
+			setTimeout(showTime, 1000);
+		}
+
+		showTime();
+	</script>
+</body>
+</html>
