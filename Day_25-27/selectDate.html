@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Select日期时间并显示</title>
+</head>
+<body>
+	<h3>Select日期比对功能</h3>
+	
+	<select id="year-select">
+		
+	</select>
+	<select id="month-select">
+		
+	</select>
+	<select id="day-select">
+		
+	</select>
+	<select id="hour-select">
+		
+	</select>
+	<select id="minute-select">
+		
+	</select>
+	<select id="second-select">
+		
+	</select>
+	<p id="result-wrapper">现在距离 2001年1月1日星期X HH:MM:SS 还有 X 天 X 小时 X 分 X 秒</p>
+
+	<script type="text/javascript">
+		var year = document.getElementById("year-select");
+		var month = document.getElementById("month-select");
+		var day = document.getElementById("day-select");
+		var hour = document.getElementById("hour-select");
+		var minute = document.getElementById("minute-select");
+		var second = document.getElementById("second-select");
+		var result = document.getElementById("result-wrapper");
+		var monthDay = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+		var leapYearFlag = false;
+		function yearOption() { //循环增加选项 年份从2000-2032
+			for (var i = 2000; i <= 2032; i++) {
+				year.add(new Option(i, i));
+			}	
+		}
+		
+		function monthOption() {
+			for (var i = 1; i <= 12; i++) {
+				month.options.add(new Option(i, i));
+			}
+		}
+		
+		function dayOption(n) {
+			for (var i = 1; i <= n; i++)
+				day.options.add(new Option(i, i));
+		}
+		
+		function hourOption() { 
+			for (var i = 0; i <= 23; i++) {
+				hour.options.add(new Option(i, i));
+			}
+		}
+
+		function minuteOption() {
+			for (var i = 0; i <= 59; i++) {
+				minute.options.add(new Option(i, i));
+			}
+		}
+
+		function secondOption() {
+			for (var i = 0; i <= 59; i++) {
+				second.options.add(new Option(i, i));
+			}
+		}
+		//注意默认选项最好是数字类，后续取得选项值进行时间比较时需要存在
+
+
+		function yearDef(year) { //判断闰年平年函数
+			//console.log(year);
+			//console.log(year.selectedIndex);
+			//console.log(typeof(year)); //year object
+			if (leapYear(year)) {
+				console.log("闰年");
+				return true;
+			}
+			else {
+				console.log("平年");
+				return false;
+			} 
+		}
+
+		function leapYear(year) { //判断是不是闰年，是闰年，返回true，否则false
+			//year = parseInt(year);
+			if (year % 4 != 0)
+				return false;
+			else if (year % 100 == 0 && year % 400 != 0) 
+				return false;
+			else 
+				return true;
+		}
+
+		function dayChange(month) { //根据年份、月份，日期选项发生相应变化
+			//console.log(month.selectedIndex);
+			//var monthValue = month.options[month.selectedIndex].value; //返回选择的月份value值
+			//console.log(monthValue);
+			console.log(month);
+			var daySum = monthDay[month - 1];
+			if ( daySum == 1 && leapYear(year.value)) {
+				console.log(daySum);
+			}
+		}
+
+		//调用选项函数，日期函数则根据year，month动态进行调整
+		yearOption();
+		monthOption();
+		hourOption();
+		minuteOption();
+		secondOption();
+		
+		year.onchange = function() {
+			var yearIndex = this.selectedIndex;
+			console.log(year.value);
+			//console.log(yearIndex);
+			leapYearFlag = leapYear(year.value);
+			yearDef(year.value);
+			//return yearValue;
+		}
+		
+		month.onchange = function() {
+			var monthIndex = this.selectedIndex;
+			//console.log(monthIndex); //月份value
+			//console.log(typeof(monthIndex)); //number
+			//console.log(typeof(month)); //object
+			var n = monthDay[monthIndex - 1];
+			if (monthIndex == 2 && leapYearFlag) {
+				n ++;
+			}
+			dayOption(n); //调用日期的选项函数
+		}
+
+		function addZero(num) { //补零操作
+			if (num < 10) {
+				num = "0" + num;
+			}
+			return num;
+		}
+
+		function getWeekday(date) { //判断所选日子的日期
+			var result = "";
+			var weekdays = "日一二三四五六";
+			return result = "星期" + weekdays[date.getDay()];
+		}
+
+		function getFullDate(year, month, day, weekday, hour, minute, second) {
+			return year + "年" + month + "月" + day+ "日" + weekday + " " + hour + ":" + minute + ":"+ second;
+		}
+
+		function getDiff(date) { //计算所选时间与当前时间的时间差
+			var selectDate = new Date(date);
+			var nowDate = new Date();
+			//console.log(selectDate);
+			var diff = Math.abs(selectDate.getTime() - nowDate.getTime());
+			var dayDiff = Math.floor(diff / (24 * 3600 * 1000));
+			var hourDiff = Math.floor(diff % (24 * 3600 * 1000) / 3600000);
+			var minuteDiff = Math.floor(diff % (24 * 3600 * 1000) % 360000 / 60000);
+			var secondDiff = Math.floor(diff % (24 * 3600 * 1000) % 360000 % 60000 / 1000);
+			if (selectDate < nowDate) {
+				var word = "已经过去";
+			} else {
+				var word = "还有";
+			}
+			result.innerHTML = "现在距离" + getFullDate(selectDate.getFullYear(), addZero(selectDate.getMonth()), addZero(selectDate.getDate()), getWeekday(selectDate),
+				addZero(selectDate.getHours()), addZero(selectDate.getMinutes()), addZero(selectDate.getSeconds()));
+			result.innerHTML += word + dayDiff + "天" + hourDiff + "小时" + minuteDiff + "分" + secondDiff + "秒";
+			//setTimeout(getDiff(date), 10000);
+		}
+
+		document.body.onchange = function() {
+			//console.log(year.value);
+			var date = year.value + "/" + month.value + "/" + day.value + "/" + hour.value + ":" + minute.value + ":" + second.value;
+			//日期格式很关键
+			console.log(date);
+			getDiff(date);
+		}
+
+	</script>
+</body>
+</html>
