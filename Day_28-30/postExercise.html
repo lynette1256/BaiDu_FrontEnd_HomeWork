@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Email Exercise</title>
+	
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<p>邮箱后缀提示模拟</p>
+	<div class="wrapper">
+		<input id="email-input" type="text">
+    	<ul id="email-sug-wrapper" class="email-sug">
+    	</ul>
+	</div>
+
+	<script type="text/javascript">
+		var postfixList = ['163.com', 'gmail.com', '126.com', 'qq.com', '263.net'];
+		//邮箱补全列表
+		var email_input = document.getElementById("email-input"); //输入内容
+		var email_sug = document.getElementById("email-sug-wrapper"); //提示后缀
+
+		email_input.addEventListener("input", function() {
+			//console.log("keydown test");
+			getInput(); //获取用户输入信息
+			displayDef();
+			//addAddress(); //添加后缀，生成填充内容
+			addToWrapper();
+		});
+
+		function getInput() { //获取用户输入
+			var emailText = email_input.value.trim(); //删除空格，得到字符串
+			//console.log(emailText);
+			return emailText;
+		}
+
+		function postlist(userinput){ 
+			//var userinput = getInput();
+			var newpostlist = new Array();
+			if ( userinput.search('@') != 0 ) { //如果输入的字符串有@符号，则进行如下操作
+				var len = userinput.search("@"); //找到输入字符串中“@”的位置
+				var x = userinput.substring( len + 1, userinput.length );//获取用户输入字符串@后面的内容
+				for (var i = 0; i < postfixList.length; i++){
+					if(postfixList[i].search(x) == 0){ //如果是正确的后缀一部分
+						newpostlist.push(postfixList[i]) //则将这部分包含的邮箱后缀加入到新建补充列表
+					}
+				}
+				if(x === '' || newpostlist == ''){
+					return postfixList; //如果@后无其他字符或者新建补充列表空，则返回原列表
+				}
+				return newpostlist;
+			} else { //如果没有@，则直接返回备选邮箱补充列表
+				return postfixList;
+			}
+		}
+
+		function addAddress(){  //将填充内容和邮箱用户名连接
+			//console.log(postlist());
+			var emailText = getInput();
+			var newPost = postlist(emailText);
+			var tips = new Array(); //提示框数组
+			if ( emailText.indexOf("@") != -1 ) {
+				var p = emailText.slice( 0, emailText.indexOf("@") );
+				for ( i = 0; i < newPost.length; i++ ) {
+					tips[i] = p + "@" + newPost[i];
+				}
+			} else {
+				for ( i = 0; i < newPost.length; i++ ) {
+					tips[i] = emailText + "@" + newPost[i];
+				}
+			}
+			// console.log(tips);
+			return tips;
+		}
+
+		function addToWrapper(){
+			var tips = addAddress(); //根据提示生成的各个数组
+			while(email_sug.hasChildNodes()) { //清除之前的列表内容
+				email_sug.removeChild(email_sug.firstChild);
+			}
+
+			for(var i = 0; i < tips.length; i++){
+				var tip_li = document.createElement("li");
+				tip_li.innerHTML = tips[i];
+				email_sug.appendChild(tip_li);
+				//为元素节点添加文本节点，为ul添加li节点
+			}
+		}
+
+		function displayDef() {
+			if(getInput() == ""){
+				hide();
+			} else{
+				display();
+			}
+		}
+		function hide() { //隐藏下拉节点
+			email_sug.style.display = "none";
+		}
+
+		function display() { //显示下拉节点
+			email_sug.style.display = "block";
+		}
+
+		//showAddress();
+		//console.log(email_input);
+
+
+
+	</script>
+</body>
+</html>
