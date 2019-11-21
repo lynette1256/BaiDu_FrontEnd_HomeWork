@@ -1,0 +1,43 @@
+ul li {
+	list-style: none;
+	margin: 0px;
+}
+
+p {
+	color: black;
+	font-size: 32px;
+}
+
+.wrapper {
+	border: 1px solid black;
+}
+li {
+	border: 1px solid black;
+	background: #999;
+	margin: 0px;
+	padding: 0px
+	width: 300px;
+	height: 30px;
+}
+
+#email-input{
+	width: 300px;
+	height: 30px;
+}
+/*ul*/
+.email-sug {/*提示框*/
+	width: 300px;
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+	border-top: none;
+	display: none;
+}
+
+.email-sug li:hover {
+	background-color: white;
+}
+
+.email-sug li.active {
+	color: blue;
+}
