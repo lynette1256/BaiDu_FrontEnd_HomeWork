@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>拖拽练习一</title>
+	<style type="text/css">
+		#box1 {
+			width: 100px;
+			height: 100px;
+			background-color: yellow;
+			position: absolute;
+		}
+
+		#box2 {
+			width: 100px;
+			height: 100px;
+			background-color: skyblue;
+			position: absolute;
+			left: 200px;
+			top: 200px;
+		}
+	</style>
+	<script type="text/javascript">
+		window.onload = function() {
+			var box1 = document.getElementById("box1");
+			box1.onmousedown = function(event) {
+
+				//为document绑定一个onmousemove事件
+				document.onmousemove = function(event) {
+					//解决兼容性问题
+					event = event || window.event;
+					var left = event.clientX;
+					var top = event.clientY;
+					// 当鼠标移动时被拖拽元素跟随鼠标移动
+					// 获取鼠标坐标
+					box1.style.left = left + "px";
+					box1.style.top = top + "px";					
+				};
+				//为document绑定一个鼠标松开事件
+				// box1.onmouseup = function() {
+					// document.onmousemove = null;
+				// };
+				//鼠标松开后，应该确保松开事件相关的绑定事件也被结束
+				document.onmouseup = function() {
+					document.onmousemove = null;
+					// alert("鼠标松开了");
+					document.onmouseup = null;
+				};
+			};
+		}
+	</script>
+</head>
+<body>
+	<div id="box1"></div>
+	<div id="box2"></div>
+</body>
+</html>
