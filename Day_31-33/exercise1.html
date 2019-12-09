@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>销售情况</title>
+	<style type="text/css">
+		table {
+			border-collapse: collapse;
+		}
+		tr, th, td {
+			border: 1px solid black;
+			width: 80px;
+		}
+
+    </style>
+    <script type="text/javascript" src="ife31data.js"></script>
+	<script>
+        window.onload = function() {
+            var region = document.getElementById("region-select");
+            var product = document.getElementById("product-select");
+            var tableWrapper = document.getElementById("table-wrapper");
+            var tableHead = ["商品", "地区", "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", 
+                "9月", "10月", "11月", "12月"];
+            var table = document.createElement("table");
+            var tbody = document.createElement("tbody");
+            region.onchange = function() {
+                getData();
+                createTable();
+            }
+            product.onchange = function() {
+                getData();
+                createTable();
+            }
+
+            function getData() {
+                var regionIndex = region.selectedIndex; // 被选中option的索引值
+                var productIndex = product.selectedIndex;
+                var selectedRegion = region.options[regionIndex].value; //被选中option的值
+                var selectedProduct = product.options[productIndex].value;
+                console.log(selectedRegion);
+                console.log(selectedProduct);
+                console.log(region.value);
+                console.log(product.value);
+                var res = new Array();
+                for(var i = 0; i < sourceData.length; i ++){
+                    if(sourceData[i].region == selectedRegion && sourceData[i].product == selectedProduct){
+                        res.push(sourceData[i]);
+                    }
+                }
+                console.log(res);
+                return res;
+            }
+
+            function createTable() {
+                // 解决了重复生成标题头的问题
+                if(table.rows.length == 0){
+                    var tr0 = table.insertRow(0); //标题行
+                    for(var i = 0; i < tableHead.length; i++){
+                        // 向表头行中插入一个新的列，列号为当前列数目
+                        var th = tr0.insertCell(tr0.cells.length); 
+                        // 列内容为表头信息
+                        th.innerHTML = tableHead[i];
+                    }
+                }
+                else{
+                    var res = getData();
+                    for(var i = 0; i < res.length; i++){
+                        var tr = table.insertRow(table.rows.length);
+                        // 插入产品名称
+                        var td = tr.insertCell(0);
+                        td.innerHTML = res[i].product;
+                        // 插入地区名称
+                        var td = tr.insertCell(1);
+                        td.innerHTML = res[i].region;
+                        for(var j = 0; j < 12; j++){
+                            var td = tr.insertCell( j + 2 );
+                            td.innerHTML = res[i].sale[j];
+                        }
+                    }
+                }
+                tableWrapper.appendChild(table);
+                // document.querySelector(table).appendChild(tbody);
+                // table.appendChild(tbody);
+            }
+
+
+
+        }
+        
+	</script>
+</head>
+<body>
+	<h3>全国各地区商品销售情况</h3>
+    <select id="region-select">
+        <option value="0">请选择</option>
+        <option value="华东">华东</option>
+        <option value="华南">华南</option>
+        <option value="华北">华北</option>
+    </select>
+    <select id="product-select">
+        <option value="0">请选择</option>
+        <option value="手机">手机</option>
+        <option value="笔记本">笔记本</option>
+        <option value="智能音箱">智能音箱</option>
+    </select>
+    <div id="table-wrapper">
+
+    </div>
+</body>
+</html>
