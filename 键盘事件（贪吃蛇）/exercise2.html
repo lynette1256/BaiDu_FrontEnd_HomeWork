@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>方向键移动div块</title>
+	<style type="text/css">
+		#box1{
+			width: 100px;
+			height: 100px;
+			background-color: skyblue;
+			position: absolute;
+		}
+	</style>
+	<script type="text/javascript">
+		// 使div可以根据不同的方向键向不同的方向移动
+		window.onload = function(){
+			var box1 = document.getElementById("box1");
+			document.onkeydown = function(event){
+				event = event || window.event;
+				var speed = 10;
+				if(event.ctrlKey){
+					speed = 50;
+				}
+				console.log(event.keyCode);
+				//37 左，38 上, 39 右, 40 下
+				switch(event.keyCode){
+					case 37:
+						// alert("left");
+						box1.style.left = box1.offsetLeft - speed + "px";
+						console.log(box1.offsetLeft);
+						break;
+					case 39:
+						box1.style.left = box1.offsetLeft + speed + "px";
+						break;
+					case 38:
+						box1.style.top = box1.offsetTop - speed + "px";
+						break;
+					case 40:
+						// alert("down");
+						box1.style.top = box1.offsetTop + speed + "px";
+						break;
+				};
+			};
+		};
+
+	</script>
+</head>
+<body>
+	<div id="box1"></div>
+</body>
+</html>

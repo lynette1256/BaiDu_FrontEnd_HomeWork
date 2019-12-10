@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>键盘事件</title>
+
+	<script type="text/javascript">
+		window.onload = function() {
+			// document.onkeydown = function(event) {
+			// 	event = event || window.event;
+			// 	console.log(event.keyCode);
+			// 	// console.log("按键被按下");
+			// 	if(event.keyCode == 89){
+			// 		console.log("y被按下了");
+			// 	}
+			// }
+			// document.onkeyup = function() {
+				// console.log("按键被松开");
+			// }
+			var input = document.getElementsByTagName("input")[0];
+			input.onkeydown = function(event) {
+				event = event || window.event;
+				// 在文本框中输入内容，属于onkeydown的默认行为
+				// 如果在onkeydown中取消默认行为，则输入内容不会出现在文本框中
+				if(event.keyCode >= 48 && event.keyCode <= 57){
+					return false;
+					// 上方数字键
+				}
+				console.log(event.keyCode);
+			}
+		}
+	</script>
+</head>
+<body>
+	<input type="text" name="input">
+</body>
+</html>

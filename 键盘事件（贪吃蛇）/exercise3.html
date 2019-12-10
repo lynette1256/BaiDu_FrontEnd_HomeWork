@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>方向键移动div块</title>
+	<style type="text/css">
+		#box1{
+			width: 100px;
+			height: 100px;
+			background-color: skyblue;
+			position: absolute;
+		}
+	</style>
+    <script type="text/javascript">
+        // 在按键过程中当更换方向时，会出现卡顿的情况
+        // 原因是，onkeydown事件同时控制速度和方向
+		// 使div可以根据不同的方向键向不同的方向移动
+        // 解决办法，增加一个定时器，通过开启定时器
+        // 来控制div的移动
+		window.onload = function(){
+			var box1 = document.getElementById("box1");
+            var dir = 0;
+            var speed = 10;
+            setInterval(function(){
+                switch(dir){
+                //37 左，38 上, 39 右, 40 下
+                    case 37:
+                    // alert("left");
+                        box1.style.left = box1.offsetLeft - speed + "px";
+                        console.log(box1.offsetLeft);
+                        break;
+                    case 39:
+                        box1.style.left = box1.offsetLeft + speed + "px";
+                        break;
+                    case 38:
+                        box1.style.top = box1.offsetTop - speed + "px";
+                        break;
+                    case 40:
+                        // alert("down");
+                        box1.style.top = box1.offsetTop + speed + "px";
+                        break;
+				    };
+                }, 30);
+
+			document.onkeydown = function(event){
+				event = event || window.event;
+				
+                // 创建变量，用来表示方向
+                // 用来表示按键值
+                dir = event.keyCode;
+				if(event.ctrlKey){
+					speed = 50;
+				}else{
+                    speed = 10;
+                }
+				console.log(event.keyCode);
+			};
+            document.onkeyup = function(event){
+                // 设置方向为0
+                dir = 0;
+            }
+		};
+
+	</script>
+</head>
+<body>
+	<div id="box1"></div>
+</body>
+</html>
