@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>销售情况</title>
+	<style type="text/css">
+		table {
+			border-collapse: collapse;
+		}
+		tr, th, td {
+			border: 1px solid black;
+			width: 80px;
+            text-align: center;
+		}
+
+    </style>
+    <script type="text/javascript" src="ife31data.js"></script>
+	<script>
+        window.onload = function() {
+            var region = document.getElementById("region-select");
+            var product = document.getElementById("product-select");
+            var tableWrapper = document.getElementById("table-wrapper");
+            var table = document.getElementById("table");
+            // console.log(table.childNodes);
+            var content = region.getAttributeNode;
+            var selectedRegion = new Array();
+            var selectedProduct = new Array();
+            // console.log(region.getElementsByTagName("single").length);
+            // console.log(region.getElementsByTagName("checkbox").value);
+            
+            region.onclick = function() {
+                clickFun();
+                selectedRegion = getData();
+                createTable(selectedRegion, selectedProduct);
+
+            };
+
+            product.onclick = function() {
+                clickFun();
+                selectedProduct = getData();
+                createTable(selectedRegion, selectedProduct);
+            };
+            
+            function clickFun(event){
+                var e= e || window.event;
+                var target = e.target || e.srcElement;
+                var count = 0;
+                if(target.getAttribute("type")  == "checkbox"){
+                    var parent = target.parentNode.parentNode;
+                    // console.log(parent.childNodes);
+                    var len = parent.childNodes.length;
+                    // console.log(len);
+                    if(target.name == "single"){
+                        // console.log("danxuan");
+                        for(var i = 0; i < parent.childNodes.length; i ++){
+                            if(parent.childNodes[i].nodeName == "LABEL"){
+                                if(parent.childNodes[i].firstChild.checked == true){
+                                    count ++;
+                                }
+                            }
+                        }
+                        // console.log(count);
+                        // console.log((len - 1) / 2 - 2);
+                        // 如果再次点击事件发生后，它将会是唯一被勾选的,则阻止这次点击事件
+                        // 保证必须有一个选项未选中状态
+                        if(target.checked == false && count == 0){
+                            target.checked = true;
+                        }
+                        // 判断点击之后是否满足全选状态，对应修改全选checkbox的状态
+                        else if(target.checked == true && count == (len - 1)/2 - 2){
+                            // target.checked = true;
+                            parent.childNodes[len-2].firstChild.checked = true;
+                            // console.log(count);
+                        }else if(target.checked == false && count == (len - 1)/2 - 2){
+                            // target.checked = true;
+                            parent.childNodes[len-2].firstChild.checked = false;
+                        }
+                        // console.log(count);
+                    }
+                    
+                    if(target.name == "all"){
+                    // 如果是全选按钮的话，则将其他按钮更改为勾选状态
+                        if(target.checked == true){
+                            for(var i = 0; i < len; i ++){
+                            // console.log(parent.childNodes[i].nodeName);
+                                if(parent.childNodes[i].nodeName == "LABEL"){
+                                    // console.log(parent.childNodes[i].firstChild.value);
+                                    parent.childNodes[i].firstChild.checked = true;
+                                    // console.log(i);
+                                }   
+                            }
+                        }
+                    }
+                }
+            }
+
+            function getData(event){
+                let arr = []
+                var e= e || window.event;
+                var target = e.target || e.srcElement;
+                var parent = target.parentNode.parentNode;
+                var len = parent.childNodes.length;
+                // console.log(len);
+                for(var i = 0; i < len; i++){
+                    if(parent.childNodes[i].nodeName == "LABEL"){
+                        // console.log(parent.childNodes[i].firstChild);
+                        if(parent.childNodes[i].firstChild.checked == true){
+                            arr.push(parent.childNodes[i].firstChild.value);
+                            // console.log(parent.childNodes[i].firstChild.value);
+                        }
+                    }
+                }
+                // console.log(arr);
+                return arr;
+            }
+
+            function createTable(regions, products) {
+                // var res = new Array();
+                // // 获取到交互的数据
+                // for(var j = 0; j < regions.length; j ++){
+                //     for(var k = 0; k < products.length; k ++){
+                //         for(var i = 0; i < sourceData.length; i ++){
+                //             // console.log(regions[j]);
+                //             // console.log(products[k]);
+                //             if(sourceData[i].region == regions[j] && 
+                //             sourceData[i].product == products[k]){
+                //                 res.push(sourceData[i]);                                    // console.log(sourceData[i]);
+                //                     // count  ++;
+                //                     // console.log(count);
+                //             } 
+                //         } 
+                //     }
+                // }
+                // console.log(table.childNodes);
+                // table.innerHTML = "";
+                // var trs = table.querySelectorAll("tr");
+                // console.log(trs);
+                // if(trs.length > 0){
+                //     for(var i = 0; i < trs.length; i ++){
+                //         table.firstChild.removeChild(trs[i]);
+                //     }
+                // }
+                // var th = document.getElementById("th");
+                // if(regions.length == 1){
+                //     var thList = th.querySelectorAll("th");
+                //     thList[0].innerHTML = "地区";
+                //     thList[1].innerHTML = "商品";
+                //     for(var i = 0; i < products.length; i++){   
+                //     }
+                // }
+                // for(var i in table.childNodes){
+                //     console.log(i.value);
+                // }
+                // console.log(table.childNodes.length);
+                var thead = table.querySelector("thead");
+                var tbody = table.querySelector("tbody");
+                tbody.innerHTML = "";
+                var regionLen = regions.length;  // 获取到的地区数
+                var productLen = products.length;  // 获取到的产品数
+                var th1 = thead.querySelectorAll("tr")[0].querySelectorAll("th")[0]; 
+                var th2 = thead.querySelectorAll("tr")[0].querySelectorAll("th")[1];
+
+                if(regionLen == 1 && productLen == 1){
+                    th1.textContent = "商品";
+                    th2.textContent = "地区";
+                    let newRow = document.createElement("tr");
+                    for(let k in sourceData){
+                        if(sourceData[k].product == products[0] 
+                        && sourceData[k].region == regions[0]){
+                            // 找到对应的商品名
+                            // 创建td
+                            let newTd = document.createElement("td");
+                            newTd.textContent = sourceData[k].product;
+                            newRow.appendChild(newTd);
+                            // 找到对应的地区名
+                            // 创建td
+                            newTd = document.createElement("td");
+                            newTd.textContent = sourceData[k].region;
+                            newRow.appendChild(newTd);
+                            for(let n in sourceData[k].sale){
+                                let newTd = document.createElement("td");
+                                newTd.textContent = sourceData[k].sale[n];
+                                newRow.appendChild(newTd);
+                            }
+                            break;
+                        }
+                    }                
+                    tbody.appendChild(newRow);
+                }else if(regionLen == 1 && productLen != 1){ 
+                    // 地区唯一商品不唯一，先写地区后写商品
+                    th1.textContent = "地区";
+                    th2.textContent = "商品";
+                    for(let j = 0; j < productLen; j ++){
+                        let newRow = document.createElement("tr");
+                        if(j == 0){ // 当还没选择商品时
+                            let newTd = document.createElement("td");
+                            newTd.textContent = regions[0];
+                            // 合并每个商品对应的地区
+                            newTd.setAttribute("rowspan", productLen);
+                            newRow.appendChild(newTd);
+                        }
+                        for(let k in sourceData){
+                            if(sourceData[k].product == products[j] 
+                            && sourceData[k].region == regions[0]){
+                                let newTd = document.createElement("td");
+                                newTd.textContent = sourceData[k].product;
+                                newRow.appendChild(newTd);
+                                for(let z in sourceData[k].sale){
+                                        let newTd = document.createElement("td");
+                                        newTd.textContent = sourceData[k].sale[z];
+                                        newRow.appendChild(newTd);
+                                }
+                                break;
+                            }
+                        }
+                        tbody.appendChild(newRow);
+                    }
+                } else if(regionLen != 1 && productLen == 1){
+                     // 地区唯一商品不唯一，先写地区后写商品
+                    th1.textContent = "商品";
+                    th2.textContent = "地区";
+                    for(let j = 0; j < regionLen; j ++){
+                        let newRow = document.createElement("tr");
+                        if(j == 0){ // 当还没选择商品时
+                            let newTd = document.createElement("td");
+                            newTd.textContent = products[0];
+                            // 合并每个商品对应的地区
+                            newTd.setAttribute("rowspan", regionLen);
+                            newRow.appendChild(newTd);
+                        }
+                        for(let k in sourceData){
+                            if(sourceData[k].product == products[0] 
+                            && sourceData[k].region == regions[j]){
+                                let newTd = document.createElement("td");
+                                newTd.textContent = sourceData[k].region;
+                                newRow.appendChild(newTd);
+                                for(let z in sourceData[k].sale){
+                                        let newTd = document.createElement("td");
+                                        newTd.textContent = sourceData[k].sale[z];
+                                        newRow.appendChild(newTd);
+                                }
+                                break;
+                            }
+                        }
+                        tbody.appendChild(newRow);
+                    }
+                }else{
+                    th1.textContent = "地区";
+                    th2.textContent = "商品";
+                    for(let i = 0; i < regionLen; i ++){
+                        if(regions[i] != "select-all"){
+                            let newRow = document.createElement("tr");
+                            let newTd = document.createElement("td");
+                            newTd.textContent = regions[i];
+                            newTd.setAttribute("rowspan", productLen);
+                            newRow.appendChild(newTd);
+                            for(let j = 0; j < productLen; j ++){
+                                if(j != 0){
+                                    newRow = document.createElement("tr");
+                                }
+                                // let newTd = document.createElement("td");
+                                // newTd.textContent = products[j];
+                                // newRow.appendChild(newTd);
+                                for(let k in sourceData){
+                                    if(sourceData[k].region == regions[i] 
+                                    && sourceData[k].product == products[j])
+                                    {
+                                        let newTd = document.createElement("td");
+                                        newTd.textContent = sourceData[k].product;
+                                        newRow.appendChild(newTd);
+                                        for(let z in sourceData[k].sale){
+                                            let newTd = document.createElement("td");
+                                            newTd.textContent = sourceData[k].sale[z];
+                                            newRow.appendChild(newTd);
+                                        }
+                                        break;
+                                    }
+                                }
+                                tbody.appendChild(newRow);
+                            }
+                        }
+                    }
+                }        
+            };
+
+            // function deleteTable(){
+            //     if(table.lastChild){
+                   
+            //         var tbody = table.lastChild;
+            //         table.removeChild(tbody);
+            //     }
+            //     console.log(tbody);
+            // }
+        }
+	</script>
+</head>
+<body>
+	<h3>全国各地区商品销售情况</h3>
+    <div id="region-select">
+        <span><b>地区</b></span>
+        <label><input name="single" type="checkbox" value="华东">
+        华东</label>
+        <label><input name="single" type="checkbox" value="华北">
+        华北</label>
+        <label><input name="single" type="checkbox" value="华南">
+        华南</label>
+        <label><input name="all" type="checkbox" value="select-all">
+        全选</label>
+    </div>
+
+    <div id="product-select">
+        <span><b>商品</b></span>
+        <label><input name="single" type="checkbox" value="手机">
+        手机</label>
+        <label><input name="single" type="checkbox" value="笔记本">
+        笔记本</label>
+        <label><input name="single" type="checkbox" value="智能音箱">
+        智能音箱</label>
+        <label><input name="all" type="checkbox" value="select-all">
+        全选</label>
+    </div>
+    <div id="table-wrapper">
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>商品</th>
+                    <th>地区</th>
+                    <th>1月</th>
+                    <th>2月</th>
+                    <th>3月</th>
+                    <th>4月</th>
+                    <th>5月</th>
+                    <th>6月</th>
+                    <th>7月</th>
+                    <th>8月</th>
+                    <th>9月</th>
+                    <th>10月</th>
+                    <th>11月</th>
+                    <th>12月</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr></tr>
+            </tbody>
+        </table> 
+    </div>
+</body>
+</html>
